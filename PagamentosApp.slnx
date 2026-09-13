@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/1.Core/">
+    <Project Path="PagamentosApp.Application/PagamentosApp.Application.csproj" />
+    <Project Path="PagamentosApp.Domain/PagamentosApp.Domain.csproj" />
+  </Folder>
+  <Folder Name="/2.Infra/">
+    <Project Path="PagamentosApp.Infrastructure/PagamentosApp.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/3.Presentation/">
+    <Project Path="PagamentosApp.Api/PagamentosApp.Api.csproj" />
+  </Folder>
+  <Folder Name="/Itens de Solução/">
+    <File Path=".gitignore" />
+    <File Path="CHANGELOG.MD" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>
