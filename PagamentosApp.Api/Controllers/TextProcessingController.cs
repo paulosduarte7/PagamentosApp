@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PagamentosApp.Application.Dtos;
 using PagamentosApp.Application.Services;
+using System.Security.Claims;
 
 namespace PagamentosApp.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TextProcessingController : ControllerBase
@@ -16,8 +19,13 @@ namespace PagamentosApp.Api.Controllers
         }
 
         [HttpPost("incluir")]
-        public async Task<IActionResult> ProcessFile([FromForm] string usuario, IFormFile? file, CancellationToken cancellationToken)
+        public async Task<IActionResult> ProcessFile([FromForm] IFormFile? file, CancellationToken cancellationToken)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if(userIdClaim is null)
+                return BadRequest("Usuário não autenticado.");
+
             byte[]? fileBytes = null;
             string? mimeType = null;
 
@@ -32,7 +40,7 @@ namespace PagamentosApp.Api.Controllers
                 return BadRequest("Nenhum arquivo foi enviado.");
             try
             {
-                var response = await _textProcessingAppService.ProcessarEGravarComprovanteAsync(fileBytes, mimeType, usuario, cancellationToken);
+                var response = await _textProcessingAppService.ProcessarEGravarComprovanteAsync(fileBytes, mimeType, userIdClaim, cancellationToken);
 
                 return Ok(response);
             }
@@ -42,15 +50,18 @@ namespace PagamentosApp.Api.Controllers
             }
         }
 
-        [HttpGet("transacoes/{usuario}")]
-        public async Task<IActionResult> GetTransacoesPessoa(string usuario, CancellationToken cancellationToken)
+        [HttpGet("transacoes")]
+        public async Task<IActionResult> GetTransacoesPessoa(CancellationToken cancellationToken)
         {
-            if(usuario is null || string.IsNullOrWhiteSpace(usuario))
-                return BadRequest("O usuário não pode ser nulo ou vazio.");
+            // Extrai o ID do usuário das Claims do Token JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userIdClaim is null)
+                return BadRequest("Usuário não autenticado.");
 
             try
             {
-                var transacoes = await _textProcessingAppService.ObterTransacoes(usuario);
+                var transacoes = await _textProcessingAppService.ObterTransacoes(userIdClaim);
                 return Ok(transacoes);
             }
             catch(Exception ex)

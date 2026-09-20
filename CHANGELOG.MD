@@ -5,6 +5,11 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versioning Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.1.0] - 2026-09-20 - Por Paulo Duarte
+
+### Adicionado
+- Implementaada autorização nos endpoints HTTP para garantir que apenas usuários autenticados possam acessar os comprovantes de pagamento.
+
 ## [1.0.0] - 2026-09-13 - Por Paulo Duarte
 
 ### Adicionado

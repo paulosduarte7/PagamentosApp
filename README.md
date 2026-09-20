@@ -13,11 +13,6 @@ API RESTful desenvolvida em **.NET 10 (C#)** voltada para a leitura, interpreta�
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Pré-requisitos](#-pré-requisitos)
 - [Configuração](#-configuração)
-- [Executando a Aplicação](#-executando-a-aplicação)
-- [Ambiente de Desenvolvimento](#ambiente-de-desenvolvimento)
-- [Ambiente de Produção](#ambiente-de-produção)
-- [Histórico de Versões](#-histórico-de-versões)
-- [Autor](#-autor)
 
 ---
 
@@ -53,12 +48,16 @@ Após o processamento, os dados são persistidos em um banco de dados **MongoDB*
 
 Configure as variáveis de ambiente necessárias ou edite o arquivo `appsettings.json` na raiz da aplicação com as configurações de conexão do MongoDB e chaves da API de IA:
 
-``json
+```json
 {
   "ConnectionStrings": {
     "MongoDb": "mongodb://localhost:27017/PagamentosDb"
   },
   "AIService": {
     "ApiKey": "SUA_CHAVE_DE_API_HERE"
+  },
+  "JwtSettings": {
+    "SecretKey": "SUA_SECRET_KEY_HERE",
+    "Issuer": "SUA_ISSUER_NAME_HERE"
   }
 }
